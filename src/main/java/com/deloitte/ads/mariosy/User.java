@@ -23,7 +23,7 @@ public class User {
         this.username = username;
     }
 
-    public ArrayList<Marios> getMariosy() {
+    public ArrayList<Marios> getReceivedMariosy() {
         return receivedMariosy;
     }
 
@@ -35,22 +35,23 @@ public class User {
         this.receivedMariosy.add(marios);
     }
 
-    public void giveMarios(Marios marios, User user) {
+    public void giveMarios(Marios marios, User user) throws IllegalArgumentException {
         if (user == this)
             throw new IllegalArgumentException("You can not give marios to yourself");
-        else {
-            user.addMarios(marios);
-            this.givenMariosy.add(marios);
-        }
+
+        user.addMarios(marios);
+        this.givenMariosy.add(marios);
     }
 
-    public void giveMarios(Marios marios, Set<User> users) {
+    public void giveMarios(Marios marios, Set<User> users) throws NullPointerException, IllegalArgumentException {
+        if (users == null)
+            throw new NullPointerException("No users provided");
+
+        if (users.contains(this))
+            throw new IllegalArgumentException("You can not give marios to yourself");
+
         for (User u : users) {
-            if (u == this)
-                throw new IllegalArgumentException("You can not give marios to yourself");
-            else {
-                u.addMarios(marios);
-            }
+            u.addMarios(marios);
         }
         this.givenMariosy.add(marios);
     }
