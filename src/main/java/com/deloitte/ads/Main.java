@@ -27,8 +27,9 @@ public class Main {
         Marios marios3 = new Marios(Marios.Character.DAISY, "test daisy", user1);
 
         Set<User> set = new HashSet<>();
+        Set<User> set2 = null;
 
-        set.add(user2);
+        set.add(user1);
         set.add(user3);
 
         user1.giveMarios(marios1, user2);
@@ -42,7 +43,7 @@ public class Main {
 
         System.out.println("Users mariosy");
         for (User u : users) {
-            System.out.println(u.getMariosy());
+            System.out.println(u.getReceivedMariosy());
         }
 
     }
