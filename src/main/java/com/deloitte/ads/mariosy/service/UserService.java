@@ -7,11 +7,11 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 
-public class UserSerivce {
+public class UserService {
 
     private Set<User> users;
 
-    public UserSerivce() {
+    public UserService() {
         User u1 = new User(1,"Mateusz");
         User u2 = new User(2,"Bartek");
         User u3 = new User(3,"Marek");
