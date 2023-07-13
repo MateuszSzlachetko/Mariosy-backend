@@ -1,7 +1,6 @@
 package com.deloitte.ads.mariosy.repository;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 public class User {
     private long id;
@@ -10,8 +9,8 @@ public class User {
     private ArrayList<Marios> givenMariosy;
 
 
-    public User(long id,String username) {
-        this.id=id;
+    public User(long id, String username) {
+        this.id = id;
         this.username = username;
         this.receivedMariosy = new ArrayList<Marios>();
         this.givenMariosy = new ArrayList<Marios>();
@@ -37,11 +36,11 @@ public class User {
         return givenMariosy;
     }
 
-    private void addMarios(Marios marios) {
+    public void addMarios(Marios marios) {
         this.receivedMariosy.add(marios);
     }
 
-    private void giveMarios(Marios marios) {
+    public void giveMarios(Marios marios) {
         this.givenMariosy.add(marios);
     }
 
