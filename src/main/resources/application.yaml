@@ -3,3 +3,16 @@ server:
 springdoc:
   swagger-ui:
     path: /docs/swagger-ui
+spring:
+  output:
+    ansi:
+      enabled: ALWAYS
+  datasource:
+    url: jdbc:postgresql://localhost:5432/spring_database
+    username: postgres
+    password: postgres
+  #spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+  jpa:
+    hibernate:
+      ddl-auto: update
+
