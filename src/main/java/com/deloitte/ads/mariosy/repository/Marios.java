@@ -10,28 +10,33 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Marios {
+
+    // temporary
+    private static int UNIQUE_ID = 0;
+
+    public static int getNextUniqueId() {
+        UNIQUE_ID++;
+        return UNIQUE_ID;
+    }
+    // ^ temporary
+
     private long id;
     private Character name;
     private String comment;
-    private User author;
-    private Set<User> receivers;
+    private long authorId;
+    private Set<Long> receiversIds;
+
+    public Marios(Character name, String comment, long authorId) {
+        this.id = getNextUniqueId();
+        this.name = name;
+        this.comment = comment;
+        this.authorId = authorId;
+        this.receiversIds = new HashSet<>();
+    }
 
     public long getId() {
         return id;
     }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Marios(long id, Character name, String comment, User author) {
-        this.id = id;
-        this.name = name;
-        this.comment = comment;
-        this.author = author;
-        this.receivers = new HashSet<>();
-    }
-
 
     public Character getName() {
         return name;
@@ -49,24 +54,24 @@ public class Marios {
         this.comment = comment;
     }
 
-    public User getAuthor() {
-        return author;
+    public long getAuthor() {
+        return authorId;
     }
 
-    public void setAuthor(User author) {
-        this.author = author;
+    public void setAuthor(Long authorId) {
+        this.authorId = authorId;
     }
 
-    public Set<User> getReceivers() {
-        return receivers;
+    public Set<Long> getReceiversIds() {
+        return receiversIds;
     }
 
-    public void setReceivers(Set<User> receivers) {
-        this.receivers = receivers;
+    public void setReceivers(Set<Long> receiversIds) {
+        this.receiversIds = receiversIds;
     }
 
     @Override
     public String toString() {
-        return name + ": " + comment + " ~" + author.getUsername();
+        return name + ": " + comment + " ~" + authorId;
     }
 }
