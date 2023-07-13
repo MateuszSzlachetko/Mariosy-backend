@@ -33,7 +33,7 @@ public class MariosController {
     public void addMarios(@RequestBody MariosDTO mariosDTO) {
         User author = userService.getUserById(mariosDTO.getAuthorId());
         Set<User> receivers = userService.getUsersByIds(mariosDTO.getReceiversIds());
-        Marios marios = new Marios(mariosDTO.getName(), mariosDTO.getComment(), author.getId());
+        Marios marios = new Marios(mariosDTO.getName(), mariosDTO.getComment(), author.getId(), mariosDTO.getReceiversIds());
 
         marioService.addMarios(marios, author, receivers);
     }

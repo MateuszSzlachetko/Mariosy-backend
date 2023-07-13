@@ -26,12 +26,12 @@ public class Marios {
     private long authorId;
     private Set<Long> receiversIds;
 
-    public Marios(Character name, String comment, long authorId) {
+    public Marios(Character name, String comment, long authorId, Set<Long> receiversIds) {
         this.id = getNextUniqueId();
         this.name = name;
         this.comment = comment;
         this.authorId = authorId;
-        this.receiversIds = new HashSet<>();
+        this.receiversIds = receiversIds;
     }
 
     public long getId() {
