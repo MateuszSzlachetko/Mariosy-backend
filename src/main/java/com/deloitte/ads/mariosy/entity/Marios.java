@@ -1,16 +1,21 @@
-package com.deloitte.ads.mariosy.repository;
+package com.deloitte.ads.mariosy.entity;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.google.common.collect.Sets;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
-@Entity(name = "MARIOS")
+@Entity(name = "marios")
 public class Marios {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private Long id;
 
     @Column(name = "character_name")
     private String characterName;
@@ -18,19 +23,33 @@ public class Marios {
     @Column(name = "comment")
     private String comment;
 
-    @Column(name = "author_id")
-    private long authorId;
-    //private Set<Long> receiversIds;
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
+    private User author;
 
-    public Marios() {
+    @ManyToMany(mappedBy = "receivedMarios")
+    @JsonIgnore
+//    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+//    @JsonIdentityReference(alwaysAsId = true)
+    private Set<User> receivers;
 
+    public Marios(String characterName, String comment, User author) {
+        this.characterName = characterName;
+        this.comment = comment;
+        this.author = author;
+        this.receivers = Sets.newHashSet();
     }
 
-    public long getId() {
+    public Marios() {
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -50,16 +69,19 @@ public class Marios {
         this.comment = comment;
     }
 
-    public long getAuthorId() {
-        return authorId;
+    public User getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(long authorId) {
-        this.authorId = authorId;
+    public void setAuthor(User author) {
+        this.author = author;
     }
 
-    @Override
-    public String toString() {
-        return characterName + ": " + comment + " ~" + authorId;
+    public Set<User> getReceivers() {
+        return receivers;
+    }
+
+    public void setReceivers(Set<User> receivers) {
+        this.receivers = receivers;
     }
 }
