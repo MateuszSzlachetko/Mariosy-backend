@@ -2,6 +2,7 @@ package com.deloitte.ads.mariosy.service;
 
 import com.deloitte.ads.mariosy.entity.Marios;
 import com.deloitte.ads.mariosy.entity.User;
+import com.deloitte.ads.mariosy.entity.UserDTO;
 import com.deloitte.ads.mariosy.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,4 +55,9 @@ public class UserService {
         return receivedMarios;
     }
 
+    public void addUser(UserDTO userDTO) {
+        User user = new User(userDTO.getUserName(), userDTO.getEmail());
+
+        this.userRepository.save(user);
+    }
 }

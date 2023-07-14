@@ -1,13 +1,12 @@
 package com.deloitte.ads.mariosy.controller;
 
 import com.deloitte.ads.mariosy.entity.Marios;
+import com.deloitte.ads.mariosy.entity.MariosDTO;
 import com.deloitte.ads.mariosy.entity.User;
+import com.deloitte.ads.mariosy.entity.UserDTO;
 import com.deloitte.ads.mariosy.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -37,5 +36,10 @@ public class UserController {
     @GetMapping("/{id}/marios/given")
     public Set<Marios> getUsersGivenMariosy(@PathVariable long id) {
         return userService.getUsersGivenMariosy(id);
+    }
+
+    @PostMapping("/add")
+    public void addUser(@RequestBody UserDTO userDTO) {
+        this.userService.addUser(userDTO);
     }
 }
