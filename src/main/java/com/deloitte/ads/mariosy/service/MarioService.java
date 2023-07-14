@@ -1,38 +1,34 @@
 package com.deloitte.ads.mariosy.service;
 
-import com.deloitte.ads.mariosy.repository.Marios;
-import com.deloitte.ads.mariosy.repository.User;
-import com.google.common.collect.Sets;
+import com.deloitte.ads.mariosy.entity.Marios;
+import com.deloitte.ads.mariosy.entity.MariosDTO;
+import com.deloitte.ads.mariosy.entity.User;
+import com.deloitte.ads.mariosy.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Set;
 
 @Service
 public class MarioService {
 
-    private Set<Marios> mariosy;
+    @Autowired
+    private UserRepository userRepository;
 
     public MarioService() {
-        mariosy = Sets.newHashSet();
     }
 
-    public Set<Marios> getMariosy() {
-        return mariosy;
-    }
+    public void addMarios(MariosDTO mariosDTO) throws NullPointerException, IllegalArgumentException {
+        User author = this.userRepository.findById(mariosDTO.getAuthorId()).orElseThrow();
+        Marios marios = new Marios(mariosDTO.getCharacterName(), mariosDTO.getComment(), author);
 
-    public void addMarios(Marios marios, User author, Set<User> receivers) throws NullPointerException, IllegalArgumentException {
-        if (receivers == null)
-            throw new NullPointerException("No users provided");
+        mariosDTO.getReceiversIds().forEach(id -> {
+            User receiver = this.userRepository.findById(id).orElseThrow();
 
-        if (receivers.contains(author))
-            throw new IllegalArgumentException("You can not give marios to yourself");
+            if (receiver.getId() == author.getId())
+                throw new IllegalArgumentException("You can not give marios to yourself");
 
-        author.giveMarios(marios);
+            receiver.addMarios(marios);
+        });
 
-        for (User r : receivers) {
-            r.addMarios(marios);
-        }
-
-        mariosy.add(marios);
+        userRepository.save(author);
     }
 }
