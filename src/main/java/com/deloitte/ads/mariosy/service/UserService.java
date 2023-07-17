@@ -50,14 +50,20 @@ public class UserService {
 
         User user = userOptional.get();
 
-        Set<Marios> receivedMarios = user.getGivenMarios();
+        Set<Marios> givenMarios = user.getGivenMarios();
 
-        return receivedMarios;
+        return givenMarios;
     }
 
     public void addUser(UserDTO userDTO) {
         User user = new User(userDTO.getUserName(), userDTO.getEmail());
 
         this.userRepository.save(user);
+    }
+
+    public void deleteUser(Long id) {
+        User user = this.userRepository.findById(id).orElseThrow();
+
+        this.userRepository.deleteById(id);
     }
 }

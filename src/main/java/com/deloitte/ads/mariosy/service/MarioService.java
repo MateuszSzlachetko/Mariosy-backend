@@ -3,12 +3,16 @@ package com.deloitte.ads.mariosy.service;
 import com.deloitte.ads.mariosy.entity.Marios;
 import com.deloitte.ads.mariosy.entity.MariosDTO;
 import com.deloitte.ads.mariosy.entity.User;
+import com.deloitte.ads.mariosy.repository.MariosRepository;
 import com.deloitte.ads.mariosy.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MarioService {
+
+    @Autowired
+    private MariosRepository mariosRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -30,5 +34,15 @@ public class MarioService {
         });
 
         userRepository.save(author);
+    }
+
+    public void deleteMarios(Long mariosId, Long userId) {
+        User author = this.userRepository.findById(userId).orElseThrow();
+        Marios marios = this.mariosRepository.findById(mariosId).orElseThrow();
+
+        if (author.getId() != marios.getAuthor().getId())
+            throw new IllegalCallerException("You have not send that marios");
+
+        this.mariosRepository.deleteById(mariosId);
     }
 }

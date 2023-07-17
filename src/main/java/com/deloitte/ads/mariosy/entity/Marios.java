@@ -30,9 +30,9 @@ public class Marios {
     private User author;
 
     @ManyToMany(mappedBy = "receivedMarios")
-    @JsonIgnore
-//    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-//    @JsonIdentityReference(alwaysAsId = true)
+    //@JsonIgnore
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     private Set<User> receivers;
 
     public Marios(String characterName, String comment, User author) {
@@ -83,5 +83,12 @@ public class Marios {
 
     public void setReceivers(Set<User> receivers) {
         this.receivers = receivers;
+    }
+
+    @PreRemove
+    public void removeReceivers() {
+        for (User receiver : this.receivers) {
+            receiver.getReceivedMarios().remove(this);
+        }
     }
 }

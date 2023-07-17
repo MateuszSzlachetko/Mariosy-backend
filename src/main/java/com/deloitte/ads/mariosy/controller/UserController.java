@@ -42,4 +42,9 @@ public class UserController {
     public void addUser(@RequestBody UserDTO userDTO) {
         this.userService.addUser(userDTO);
     }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        this.userService.deleteUser(id);
+    }
 }

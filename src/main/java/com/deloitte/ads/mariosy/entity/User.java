@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.google.common.collect.Sets;
 
 import javax.persistence.*;
+import java.util.Iterator;
 import java.util.Set;
 
 @Entity(name = "users")
@@ -32,7 +33,7 @@ public class User {
     @JsonIdentityReference(alwaysAsId = true)
     private Set<Marios> receivedMarios;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", orphanRemoval = true)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     private Set<Marios> givenMarios;
@@ -95,6 +96,14 @@ public class User {
     public void removeMarios(Marios marios) {
         this.receivedMarios.remove(marios);
         marios.getReceivers().remove(this);
+    }
+
+    @PreRemove
+    public void removeGivenMarios() {
+        for (Iterator<Marios> i = givenMarios.iterator(); i.hasNext(); ) {
+            Marios marios = i.next();
+            i.remove();
+        }
     }
 }
 

@@ -14,6 +14,11 @@ public class MariosController {
 
     @PostMapping("/add")
     public void addMarios(@RequestBody MariosDTO mariosDTO) {
-        marioService.addMarios(mariosDTO);
+        this.marioService.addMarios(mariosDTO);
+    }
+
+    @DeleteMapping("/delete/{mariosId}&{userId}")
+    public void deleteGivenMarios(@PathVariable Long mariosId, @PathVariable Long userId) {
+        this.marioService.deleteMarios(mariosId, userId);
     }
 }
