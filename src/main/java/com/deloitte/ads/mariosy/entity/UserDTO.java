@@ -1,23 +1,23 @@
 package com.deloitte.ads.mariosy.entity;
 
 public class UserDTO {
-    private String userName;
+    private String username;
     private String email;
 
-    public UserDTO(String userName, String email) {
-        if (userName == null || email == null)
+    public UserDTO(String username, String email) {
+        if (username == null || email == null)
             throw new IllegalArgumentException("Bad argument");
 
-        this.userName = userName;
+        this.username = username;
         this.email = email;
     }
 
     public String getUserName() {
-        return userName;
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserName(String username) {
+        this.username = username;
     }
 
     public String getEmail() {

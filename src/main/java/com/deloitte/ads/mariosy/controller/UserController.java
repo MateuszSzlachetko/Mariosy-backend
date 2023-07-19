@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -23,19 +24,19 @@ public class UserController {
         return userService.getUsers();
     }
 
-    @GetMapping("/{id}")
-    public User getUserById(@PathVariable long id) {
-        return userService.getUserById(id);
+    @GetMapping("/{externalId}")
+    public User getUserById(@PathVariable UUID externalId) {
+        return userService.getUserByExternalId(externalId);
     }
 
-    @GetMapping("/{id}/marios/received")
-    public Set<Marios> getUsersReceivedMariosy(@PathVariable long id) {
-        return userService.getUsersReceivedMariosy(id);
+    @GetMapping("/{externalId}/marios/received")
+    public Set<Marios> getUsersReceivedMariosy(@PathVariable UUID externalId) {
+        return userService.getUsersReceivedMariosy(externalId);
     }
 
-    @GetMapping("/{id}/marios/given")
-    public Set<Marios> getUsersGivenMariosy(@PathVariable long id) {
-        return userService.getUsersGivenMariosy(id);
+    @GetMapping("/{externalId}/marios/given")
+    public Set<Marios> getUsersGivenMariosy(@PathVariable UUID externalId) {
+        return userService.getUsersGivenMariosy(externalId);
     }
 
     @PostMapping("/add")
@@ -43,8 +44,8 @@ public class UserController {
         this.userService.addUser(userDTO);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public void deleteUser(@PathVariable Long id) {
-        this.userService.deleteUser(id);
+    @DeleteMapping("/delete/{externalId}")
+    public void deleteUser(@PathVariable UUID externalId) {
+        this.userService.deleteUser(externalId);
     }
 }

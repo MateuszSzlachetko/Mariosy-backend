@@ -3,12 +3,15 @@ package com.deloitte.ads.mariosy.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.google.common.collect.Sets;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity(name = "users")
 public class User {
@@ -16,7 +19,11 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @JsonIgnore
     private Long id;
+
+    @Column(name = "external_id")
+    private UUID externalId = UUID.randomUUID();
 
     @Column(name = "username")
     private String username;
@@ -29,12 +36,12 @@ public class User {
             name = "marios_receivers",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "marios_id"))
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "externalId")
     @JsonIdentityReference(alwaysAsId = true)
     private Set<Marios> receivedMarios;
 
     @OneToMany(mappedBy = "author", orphanRemoval = true)
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "externalId")
     @JsonIdentityReference(alwaysAsId = true)
     private Set<Marios> givenMarios;
 
@@ -104,6 +111,14 @@ public class User {
             Marios marios = i.next();
             i.remove();
         }
+    }
+
+    public UUID getExternalId() {
+        return externalId;
+    }
+
+    public void setExternalId(UUID externalId) {
+        this.externalId = externalId;
     }
 }
 

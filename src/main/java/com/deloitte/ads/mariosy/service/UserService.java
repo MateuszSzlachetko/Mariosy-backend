@@ -25,12 +25,12 @@ public class UserService {
         return users;
     }
 
-    public User getUserById(long id) {
-        return this.userRepository.findById(id).orElseThrow();
+    public User getUserByExternalId(UUID externalId) {
+        return this.userRepository.findByExternalId(externalId).orElseThrow();
     }
 
-    public Set<Marios> getUsersReceivedMariosy(long id) {
-        Optional<User> userOptional = this.userRepository.findById(id);
+    public Set<Marios> getUsersReceivedMariosy(UUID externalId) {
+        Optional<User> userOptional = this.userRepository.findByExternalId(externalId);
 
         if (!userOptional.isPresent())
             throw new NoSuchElementException();
@@ -42,8 +42,8 @@ public class UserService {
         return receivedMarios;
     }
 
-    public Set<Marios> getUsersGivenMariosy(long id) {
-        Optional<User> userOptional = this.userRepository.findById(id);
+    public Set<Marios> getUsersGivenMariosy(UUID externalId) {
+        Optional<User> userOptional = this.userRepository.findByExternalId(externalId);
 
         if (!userOptional.isPresent())
             throw new NoSuchElementException();
@@ -61,9 +61,9 @@ public class UserService {
         this.userRepository.save(user);
     }
 
-    public void deleteUser(Long id) {
-        User user = this.userRepository.findById(id).orElseThrow();
+    public void deleteUser(UUID externalId) {
+        User user = this.userRepository.findByExternalId(externalId).orElseThrow();
 
-        this.userRepository.deleteById(id);
+        this.userRepository.deleteById(user.getId());
     }
 }
