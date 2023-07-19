@@ -5,6 +5,8 @@ import com.deloitte.ads.mariosy.service.MarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/v1/marios")
 public class MariosController {
@@ -17,8 +19,8 @@ public class MariosController {
         this.marioService.addMarios(mariosDTO);
     }
 
-    @DeleteMapping("/delete/{mariosId}&{userId}")
-    public void deleteGivenMarios(@PathVariable Long mariosId, @PathVariable Long userId) {
-        this.marioService.deleteMarios(mariosId, userId);
+    @DeleteMapping("/delete/{mariosExternalId}&{userExternalId}")
+    public void deleteGivenMarios(@PathVariable UUID mariosExternalId, @PathVariable UUID userExternalId) {
+        this.marioService.deleteMarios(mariosExternalId, userExternalId);
     }
 }

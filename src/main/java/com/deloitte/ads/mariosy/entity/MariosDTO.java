@@ -1,14 +1,15 @@
 package com.deloitte.ads.mariosy.entity;
 
 import java.util.Set;
+import java.util.UUID;
 
 public class MariosDTO {
     private String characterName;
     private String comment;
-    private long authorId;
-    private Set<Long> receiversIds;
+    private UUID authorId;
+    private Set<UUID> receiversIds;
 
-    public MariosDTO(String characterName, String comment, Long authorId, Set<Long> receiversIds) {
+    public MariosDTO(String characterName, String comment, UUID authorId, Set<UUID> receiversIds) {
         if (characterName == null || comment == null || authorId == null || receiversIds == null)
             throw new IllegalArgumentException("Bad argument");
 
@@ -34,19 +35,19 @@ public class MariosDTO {
         this.comment = comment;
     }
 
-    public long getAuthorId() {
+    public UUID getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(long authorId) {
+    public void setAuthorId(UUID authorId) {
         this.authorId = authorId;
     }
 
-    public Set<Long> getReceiversIds() {
+    public Set<UUID> getReceiversIds() {
         return receiversIds;
     }
 
-    public void setReceiversIds(Set<Long> receiversIds) {
+    public void setReceiversIds(Set<UUID> receiversIds) {
         this.receiversIds = receiversIds;
     }
 }

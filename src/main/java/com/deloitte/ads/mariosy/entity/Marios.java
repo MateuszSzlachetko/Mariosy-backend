@@ -8,6 +8,7 @@ import com.google.common.collect.Sets;
 
 import javax.persistence.*;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity(name = "marios")
 public class Marios {
@@ -15,7 +16,11 @@ public class Marios {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @JsonIgnore
     private Long id;
+
+    @Column(name = "external_id")
+    private UUID externalId = UUID.randomUUID();
 
     @Column(name = "character_name")
     private String characterName;
@@ -25,13 +30,12 @@ public class Marios {
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "externalId")
     @JsonIdentityReference(alwaysAsId = true)
     private User author;
 
     @ManyToMany(mappedBy = "receivedMarios")
-    //@JsonIgnore
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "externalId")
     @JsonIdentityReference(alwaysAsId = true)
     private Set<User> receivers;
 
@@ -90,5 +94,13 @@ public class Marios {
         for (User receiver : this.receivers) {
             receiver.getReceivedMarios().remove(this);
         }
+    }
+
+    public UUID getExternalId() {
+        return externalId;
+    }
+
+    public void setExternalId(UUID externalId) {
+        this.externalId = externalId;
     }
 }
