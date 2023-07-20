@@ -47,7 +47,7 @@ public class MarioServiceTest {
         when(userRepository.findByExternalId(author.getExternalId())).thenReturn(Optional.of(author));
         when(userRepository.findByExternalId(receiver1.getExternalId())).thenReturn(Optional.of(receiver1));
         when(userRepository.findByExternalId(receiver2.getExternalId())).thenReturn(Optional.of(receiver2));
-        marioService.addMarios(mariosDTO);
+        Marios addedMarios = marioService.addMarios(mariosDTO);
 
         ArgumentCaptor<User> argumentCaptor = ArgumentCaptor.forClass(User.class);
 
@@ -60,6 +60,9 @@ public class MarioServiceTest {
 
         assertFalse(author.getGivenMarios().isEmpty());
         assertEquals(authorFromCaptor, author);
+        assertTrue(author.getGivenMarios().contains(addedMarios));
+        assertTrue(receiver1.getReceivedMarios().contains(addedMarios));
+        assertTrue(receiver2.getReceivedMarios().contains(addedMarios));
     }
 
     @Test

@@ -138,17 +138,17 @@ public class UserServiceTest {
         UserDTO userDTO = new UserDTO("Mateusz", "mateusz@gmail.com");
 
         // when
-        userService.addUser(userDTO);
+        User addedUser = userService.addUser(userDTO);
         ArgumentCaptor<User> userArgumentCaptor = ArgumentCaptor.forClass(User.class);
         verify(userRepository).save(userArgumentCaptor.capture());
         verify(userRepository, times(1)).save(any());
 
         //then
-        String username = userArgumentCaptor.getValue().getUsername();
-        String email = userArgumentCaptor.getValue().getEmail();
+        User capturedUser = userArgumentCaptor.getValue();
 
-        assertEquals(userDTO.getUserName(), username);
-        assertEquals(userDTO.getEmail(), email);
+        assertEquals(userDTO.getUserName(), capturedUser.getUsername());
+        assertEquals(userDTO.getEmail(), capturedUser.getEmail());
+        assertEquals(addedUser, capturedUser);
     }
 
     @Test
