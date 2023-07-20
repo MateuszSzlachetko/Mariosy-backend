@@ -55,10 +55,12 @@ public class UserService {
         return givenMarios;
     }
 
-    public void addUser(UserDTO userDTO) {
+    public User addUser(UserDTO userDTO) {
         User user = new User(userDTO.getUserName(), userDTO.getEmail());
 
         this.userRepository.save(user);
+
+        return user;
     }
 
     public void deleteUser(UUID externalId) {

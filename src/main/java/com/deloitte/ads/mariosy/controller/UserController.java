@@ -40,8 +40,8 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public void addUser(@RequestBody UserDTO userDTO) {
-        this.userService.addUser(userDTO);
+    public User addUser(@RequestBody UserDTO userDTO) {
+        return this.userService.addUser(userDTO);
     }
 
     @DeleteMapping("/delete/{externalId}")

@@ -23,7 +23,7 @@ public class MarioService {
     public MarioService() {
     }
 
-    public void addMarios(MariosDTO mariosDTO) throws NoSuchElementException, IllegalArgumentException {
+    public Marios addMarios(MariosDTO mariosDTO) throws NoSuchElementException, IllegalArgumentException {
         User author = this.userRepository.findByExternalId(mariosDTO.getAuthorId()).orElseThrow();
         Marios marios = new Marios(mariosDTO.getCharacterName(), mariosDTO.getComment(), author);
 
@@ -37,6 +37,8 @@ public class MarioService {
         });
 
         userRepository.save(author);
+
+        return marios;
     }
 
     public void deleteMarios(UUID mariosId, UUID userId) {

@@ -1,8 +1,10 @@
 package com.deloitte.ads.mariosy.controller;
 
+import com.deloitte.ads.mariosy.entity.Marios;
 import com.deloitte.ads.mariosy.entity.MariosDTO;
 import com.deloitte.ads.mariosy.service.MarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -15,8 +17,9 @@ public class MariosController {
     private MarioService marioService;
 
     @PostMapping("/add")
-    public void addMarios(@RequestBody MariosDTO mariosDTO) {
-        this.marioService.addMarios(mariosDTO);
+    @ResponseStatus(HttpStatus.CREATED)
+    public Marios addMarios(@RequestBody MariosDTO mariosDTO) {
+        return this.marioService.addMarios(mariosDTO);
     }
 
     @DeleteMapping("/delete/{mariosExternalId}&{userExternalId}")
