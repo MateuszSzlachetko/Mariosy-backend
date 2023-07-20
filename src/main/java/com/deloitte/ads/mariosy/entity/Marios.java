@@ -44,6 +44,7 @@ public class Marios {
         this.comment = comment;
         this.author = author;
         this.receivers = Sets.newHashSet();
+        author.giveMarios(this);
     }
 
     public Marios() {

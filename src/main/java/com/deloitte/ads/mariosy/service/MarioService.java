@@ -8,6 +8,7 @@ import com.deloitte.ads.mariosy.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -22,14 +23,14 @@ public class MarioService {
     public MarioService() {
     }
 
-    public void addMarios(MariosDTO mariosDTO) throws NullPointerException, IllegalArgumentException {
+    public void addMarios(MariosDTO mariosDTO) throws NoSuchElementException, IllegalArgumentException {
         User author = this.userRepository.findByExternalId(mariosDTO.getAuthorId()).orElseThrow();
         Marios marios = new Marios(mariosDTO.getCharacterName(), mariosDTO.getComment(), author);
 
         mariosDTO.getReceiversIds().forEach(id -> {
             User receiver = this.userRepository.findByExternalId(id).orElseThrow();
 
-            if (receiver.getId() == author.getId())
+            if (receiver.getExternalId() == author.getExternalId())
                 throw new IllegalArgumentException("You can not give marios to yourself");
 
             receiver.addMarios(marios);
@@ -42,8 +43,8 @@ public class MarioService {
         User author = this.userRepository.findByExternalId(userId).orElseThrow();
         Marios marios = this.mariosRepository.findByExternalId(mariosId).orElseThrow();
 
-        if (author.getId() != marios.getAuthor().getId())
-            throw new IllegalCallerException("You have not send that marios");
+        if (author.getExternalId() != marios.getAuthor().getExternalId())
+            throw new IllegalCallerException("You have not sent that marios");
 
         this.mariosRepository.deleteById(marios.getId());
     }

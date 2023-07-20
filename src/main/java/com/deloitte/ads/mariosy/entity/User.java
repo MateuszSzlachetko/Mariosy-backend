@@ -120,5 +120,9 @@ public class User {
     public void setExternalId(UUID externalId) {
         this.externalId = externalId;
     }
+
+    public void giveMarios(Marios marios) {
+        this.givenMarios.add(marios);
+    }
 }
 

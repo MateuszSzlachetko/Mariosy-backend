@@ -33,7 +33,7 @@ public class UserService {
         Optional<User> userOptional = this.userRepository.findByExternalId(externalId);
 
         if (!userOptional.isPresent())
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("User does not exist");
 
         User user = userOptional.get();
 
@@ -46,7 +46,7 @@ public class UserService {
         Optional<User> userOptional = this.userRepository.findByExternalId(externalId);
 
         if (!userOptional.isPresent())
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("User does not exist");
 
         User user = userOptional.get();
 
