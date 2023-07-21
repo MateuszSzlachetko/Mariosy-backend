@@ -58,6 +58,12 @@ public class UserService {
     public User addUser(UserDTO userDTO) {
         User user = new User(userDTO.getUsername(), userDTO.getEmail());
 
+        Optional<User> userWithSameEmail = userRepository.findByEmail(userDTO.getEmail());
+        Optional<User> userWithSameUsername = userRepository.findByUsername(userDTO.getUsername());
+
+        if (userWithSameEmail.isPresent() || userWithSameUsername.isPresent())
+            throw new IllegalArgumentException("Such user already exists");
+
         this.userRepository.save(user);
 
         return user;
