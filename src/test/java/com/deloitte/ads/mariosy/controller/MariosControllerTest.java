@@ -66,7 +66,7 @@ public class MariosControllerTest {
 
         // when then
         mvc.perform(MockMvcRequestBuilders
-                        .delete("/api/v1/marios/delete/{%s}&{%s}", marios.getExternalId(), author.getExternalId())
+                        .delete("/api/v1/marios/delete/{mariosExternalId}&{authorExternalId}", marios.getExternalId(), author.getExternalId())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
