@@ -26,7 +26,9 @@ public class UserService {
     }
 
     public User getUserByExternalId(UUID externalId) {
-        return this.userRepository.findByExternalId(externalId).orElseThrow();
+        return this.userRepository.findByExternalId(externalId).orElseThrow(
+                () -> new NoSuchElementException("User does not exist")
+        );
     }
 
     public Set<Marios> getUsersReceivedMariosy(UUID externalId) {
@@ -70,7 +72,9 @@ public class UserService {
     }
 
     public void deleteUser(UUID externalId) {
-        User user = this.userRepository.findByExternalId(externalId).orElseThrow();
+        User user = this.userRepository.findByExternalId(externalId).orElseThrow(
+                () -> new NoSuchElementException("User does not exist")
+        );
 
         this.userRepository.deleteById(user.getId());
     }

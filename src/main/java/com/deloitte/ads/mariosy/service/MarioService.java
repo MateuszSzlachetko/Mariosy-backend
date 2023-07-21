@@ -24,7 +24,9 @@ public class MarioService {
     }
 
     public Marios addMarios(MariosDTO mariosDTO) throws NoSuchElementException, IllegalArgumentException {
-        User author = this.userRepository.findByExternalId(mariosDTO.getAuthorId()).orElseThrow();
+        User author = this.userRepository.findByExternalId(mariosDTO.getAuthorId()).orElseThrow(
+                () -> new NoSuchElementException("User does not exist")
+        );
         Marios marios = new Marios(mariosDTO.getCharacterName(), mariosDTO.getComment(), author);
 
         mariosDTO.getReceiversIds().forEach(id -> {
@@ -42,8 +44,12 @@ public class MarioService {
     }
 
     public void deleteMarios(UUID mariosId, UUID userId) {
-        User author = this.userRepository.findByExternalId(userId).orElseThrow();
-        Marios marios = this.mariosRepository.findByExternalId(mariosId).orElseThrow();
+        User author = this.userRepository.findByExternalId(userId).orElseThrow(
+                () -> new NoSuchElementException("User does not exist")
+        );
+        Marios marios = this.mariosRepository.findByExternalId(mariosId).orElseThrow(
+                () -> new NoSuchElementException("Marios does not exist")
+        );
 
         if (author.getExternalId() != marios.getAuthor().getExternalId())
             throw new IllegalCallerException("You have not sent that marios");
