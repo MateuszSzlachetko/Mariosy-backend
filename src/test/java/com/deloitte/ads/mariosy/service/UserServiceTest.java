@@ -152,6 +152,36 @@ public class UserServiceTest {
     }
 
     @Test
+    public void shouldThrowWhenUserWithGivenEmailAlreadyExists() {
+        // given
+        UserDTO userDTO = new UserDTO("Mateusz", "mateusz@gmail.com");
+        User existingUser = new User("Mateusz", "mateusz@gmail.com");
+
+        // when
+        when(userRepository.findByEmail(userDTO.getEmail())).thenReturn(Optional.of(existingUser));
+        IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class,
+                () -> userService.addUser(userDTO));
+
+        //then
+        assertEquals("Such user already exists", thrown.getMessage());
+    }
+
+    @Test
+    public void shouldThrowWhenUserWithGivenUsernameAlreadyExists() {
+        // given
+        UserDTO userDTO = new UserDTO("Mateusz", "mateusz@gmail.com");
+        User existingUser = new User("Mateusz", "mateusz@gmail.com");
+
+        // when
+        when(userRepository.findByUsername(userDTO.getUsername())).thenReturn(Optional.of(existingUser));
+        IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class,
+                () -> userService.addUser(userDTO));
+        
+        //then
+        assertEquals("Such user already exists", thrown.getMessage());
+    }
+
+    @Test
     public void shouldDeleteUser() {
         // given
         User user = new User("Mateusz", "mateusz@gmail.com");
