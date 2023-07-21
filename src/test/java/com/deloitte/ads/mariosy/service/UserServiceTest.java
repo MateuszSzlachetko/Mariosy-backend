@@ -146,7 +146,7 @@ public class UserServiceTest {
         //then
         User capturedUser = userArgumentCaptor.getValue();
 
-        assertEquals(userDTO.getUserName(), capturedUser.getUsername());
+        assertEquals(userDTO.getUsername(), capturedUser.getUsername());
         assertEquals(userDTO.getEmail(), capturedUser.getEmail());
         assertEquals(addedUser, capturedUser);
     }

@@ -56,7 +56,7 @@ public class UserService {
     }
 
     public User addUser(UserDTO userDTO) {
-        User user = new User(userDTO.getUserName(), userDTO.getEmail());
+        User user = new User(userDTO.getUsername(), userDTO.getEmail());
 
         this.userRepository.save(user);
 

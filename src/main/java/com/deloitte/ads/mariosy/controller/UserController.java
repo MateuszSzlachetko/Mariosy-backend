@@ -6,6 +6,7 @@ import com.deloitte.ads.mariosy.entity.User;
 import com.deloitte.ads.mariosy.entity.UserDTO;
 import com.deloitte.ads.mariosy.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class UserController {
     }
 
     @PostMapping("/add")
+    @ResponseStatus(HttpStatus.CREATED)
     public User addUser(@RequestBody UserDTO userDTO) {
         return this.userService.addUser(userDTO);
     }
