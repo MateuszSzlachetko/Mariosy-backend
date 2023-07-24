@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.BDDMockito.will;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -92,12 +93,11 @@ public class MarioServiceTest {
         MariosDTO mariosDTO = new MariosDTO("Mario", "Good job!", author.getExternalId(), receiversExternalId);
 
         // when
-        when(userRepository.findByExternalId(author.getExternalId())).thenReturn(Optional.of(author));
         NoSuchElementException thrown = Assertions.assertThrows(NoSuchElementException.class,
                 () -> marioService.addMarios(mariosDTO));
 
         //then
-        assertEquals("No value present", thrown.getMessage());
+        assertEquals("User does not exist", thrown.getMessage());
     }
 
     @Test
@@ -131,5 +131,57 @@ public class MarioServiceTest {
         //then
         assertEquals("You have not sent that marios", thrown.getMessage());
         verify(mariosRepository, times(0)).deleteById(marios.getId());
+    }
+
+    @Test
+    public void shouldThrowWhenUserDoesNotExistWhenDeletingMarios() {
+        // given
+        User author = new User("Mateusz", "mateusz@gmail.com");
+        User notExistingUser = new User("Mateusz", "mateusz@gmail.com");
+        Marios marios = new Marios("Mario", "Good job!", author);
+
+        // when
+        NoSuchElementException thrown = Assertions.assertThrows(NoSuchElementException.class,
+                () -> marioService.deleteMarios(marios.getExternalId(), notExistingUser.getExternalId()));
+
+        //then
+        assertEquals("User does not exist", thrown.getMessage());
+        verify(mariosRepository, times(0)).deleteById(marios.getId());
+    }
+
+    @Test
+    public void shouldThrowWhenMariosDoesNotExistWhenDeletingMarios() {
+        // given
+        User author = new User("Mateusz", "mateusz@gmail.com");
+        Marios marios = new Marios("Mario", "Good job!", author);
+
+        // when
+        when(userRepository.findByExternalId(author.getExternalId())).thenReturn(Optional.of(author));
+        NoSuchElementException thrown = Assertions.assertThrows(NoSuchElementException.class,
+                () -> marioService.deleteMarios(marios.getExternalId(), author.getExternalId()));
+
+        //then
+        assertEquals("Marios does not exist", thrown.getMessage());
+        verify(mariosRepository, times(0)).deleteById(marios.getId());
+    }
+
+    @Test
+    public void shouldThrowWhenReceiverDoesNotExist() {
+        // given
+        User author = new User("Mateusz", "mateusz@gmail.com");
+        User receiver1 = new User("Bartosz", "bartek@gmail.com");
+        User receiver2 = new User("Kamil", "kamil@gmail.com");
+
+
+        Set<UUID> receiversExternalId = Set.of(receiver1.getExternalId(), receiver2.getExternalId());
+        MariosDTO mariosDTO = new MariosDTO("Mario", "Good job!", author.getExternalId(), receiversExternalId);
+
+        // when
+        when(userRepository.findByExternalId(author.getExternalId())).thenReturn(Optional.of(author));
+        NoSuchElementException thrown = Assertions.assertThrows(NoSuchElementException.class,
+                () -> marioService.addMarios(mariosDTO));
+
+        //then
+        assertEquals("Receiver does not exist", thrown.getMessage());
     }
 }

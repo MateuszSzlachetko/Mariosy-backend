@@ -30,7 +30,8 @@ public class MarioService {
         Marios marios = new Marios(mariosDTO.getCharacterName(), mariosDTO.getComment(), author);
 
         mariosDTO.getReceiversIds().forEach(id -> {
-            User receiver = this.userRepository.findByExternalId(id).orElseThrow();
+            User receiver = this.userRepository.findByExternalId(id).orElseThrow(
+                    () -> new NoSuchElementException("Receiver does not exist"));
 
             if (receiver.getExternalId() == author.getExternalId())
                 throw new IllegalArgumentException("You can not give marios to yourself");
