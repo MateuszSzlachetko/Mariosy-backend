@@ -87,7 +87,7 @@ public class UserServiceTest {
                 () -> userService.getUsersReceivedMariosy(uuid));
 
         //then
-        assertEquals("No value present", thrown1.getMessage());
+        assertEquals("User does not exist", thrown1.getMessage());
         assertEquals("User does not exist", thrown2.getMessage());
         assertEquals("User does not exist", thrown3.getMessage());
     }
@@ -176,7 +176,7 @@ public class UserServiceTest {
         when(userRepository.findByUsername(userDTO.getUsername())).thenReturn(Optional.of(existingUser));
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class,
                 () -> userService.addUser(userDTO));
-        
+
         //then
         assertEquals("Such user already exists", thrown.getMessage());
     }
@@ -193,5 +193,20 @@ public class UserServiceTest {
 
         //then
         verify(userRepository, times(1)).deleteById(user.getId());
+    }
+
+    @Test
+    public void shouldThrowWhenDeletingUserWhoDoesNotExist() {
+        // given
+        User user = new User("Mateusz", "mateusz@gmail.com");
+        UUID uuid = user.getExternalId();
+
+        // when
+        NoSuchElementException thrown = Assertions.assertThrows(NoSuchElementException.class,
+                () -> userService.deleteUser(uuid));
+
+        //then
+        assertEquals("User does not exist", thrown.getMessage());
+        verify(userRepository, times(0)).deleteById(user.getId());
     }
 }
