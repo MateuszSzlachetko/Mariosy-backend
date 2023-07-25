@@ -30,8 +30,8 @@ public class UserController {
         return userService.getUserByExternalId(externalId);
     }
 
-    @GetMapping("/{username}")
-    public User getUserByUsername(@PathVariable String username) {
+    @GetMapping("/")
+    public User getUserByUsername(@RequestParam(value = "username") String username) {
         return userService.getUserByUsername(username);
     }
 
