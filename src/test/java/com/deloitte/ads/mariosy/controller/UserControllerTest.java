@@ -75,6 +75,21 @@ public class UserControllerTest {
     }
 
     @Test
+    void getUserByUsernameTest() throws Exception {
+        // given
+        User user = new User("Mateusz", "mateusz@gmail.com");
+
+        // when then
+        when(userService.getUserByUsername(user.getUsername())).thenReturn(user);
+        mvc.perform(MockMvcRequestBuilders
+                        .get(url + "/").param("username", user.getUsername()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.externalId").value(user.getExternalId().toString()))
+                .andExpect(jsonPath("$.username").value(user.getUsername()))
+                .andExpect(jsonPath("$.email").value(user.getEmail()));
+    }
+
+    @Test
     void getUserReceivedMariosTest() throws Exception {
         // given
         User user = new User("Mateusz", "mateusz@gmail.com");

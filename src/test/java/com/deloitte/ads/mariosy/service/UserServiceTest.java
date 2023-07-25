@@ -74,6 +74,21 @@ public class UserServiceTest {
     }
 
     @Test
+    public void shouldGetUserByUsername() {
+        // given
+        User user = new User("Mateusz", "mateusz@gmail.com");
+        UUID uuid = user.getExternalId();
+
+        // when
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
+        User userFromService = userService.getUserByUsername(user.getUsername());
+
+        //then
+        assertEquals(user.getId(), userFromService.getId());
+        assertEquals(user, userFromService);
+    }
+
+    @Test
     public void shouldThrowWhenUserDoesNotExist() {
         // given
         UUID uuid = UUID.randomUUID();
@@ -85,6 +100,8 @@ public class UserServiceTest {
                 () -> userService.getUsersGivenMariosy(uuid));
         NoSuchElementException thrown3 = Assertions.assertThrows(NoSuchElementException.class,
                 () -> userService.getUsersReceivedMariosy(uuid));
+        NoSuchElementException thrown4 = Assertions.assertThrows(NoSuchElementException.class,
+                () -> userService.getUserByUsername("-"));
 
         //then
         assertEquals("User does not exist", thrown1.getMessage());
