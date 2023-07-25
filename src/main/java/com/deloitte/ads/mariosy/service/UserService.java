@@ -78,4 +78,10 @@ public class UserService {
 
         this.userRepository.deleteById(user.getId());
     }
+
+    public User getUserByUsername(String username) {
+        return this.userRepository.findByUsername(username).orElseThrow(
+                () -> new NoSuchElementException("User does not exist")
+        );
+    }
 }

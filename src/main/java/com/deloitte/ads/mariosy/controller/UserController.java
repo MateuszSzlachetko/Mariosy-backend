@@ -30,6 +30,11 @@ public class UserController {
         return userService.getUserByExternalId(externalId);
     }
 
+    @GetMapping("/{username}")
+    public User getUserByUsername(@PathVariable String username) {
+        return userService.getUserByUsername(username);
+    }
+
     @GetMapping("/{externalId}/marios/received")
     public Set<Marios> getUsersReceivedMariosy(@PathVariable UUID externalId) {
         return userService.getUsersReceivedMariosy(externalId);
