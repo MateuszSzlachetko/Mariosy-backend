@@ -1,6 +1,7 @@
 package com.deloitte.ads.mariosy.service;
 
 import com.deloitte.ads.mariosy.entity.Marios;
+import com.deloitte.ads.mariosy.entity.MariosyDTO;
 import com.deloitte.ads.mariosy.entity.User;
 import com.deloitte.ads.mariosy.entity.UserDTO;
 import com.deloitte.ads.mariosy.repository.UserRepository;
@@ -114,20 +115,20 @@ public class UserServiceTest {
         // given
         User author = new User("Mateusz", "mateusz@gmail.com");
         User receiver = new User("Bartosz", "bartek@gmail.com");
-        Marios marios1 = new Marios("Mario", "Good job!", author);
-        Marios marios2 = new Marios("Luigi", "Excellent!", author);
+        Marios marios1 = new Marios("Mario", "Good job!", author, "Greetings");
+        Marios marios2 = new Marios("Luigi", "Excellent!", author, "Greetings");
         UUID receiverExternalId = receiver.getExternalId();
 
         // when
         receiver.addMarios(marios1);
         receiver.addMarios(marios2);
         when(userRepository.findByExternalId(receiverExternalId)).thenReturn(Optional.of(receiver));
-        Set<Marios> userReceivedMariosy = userService.getUsersReceivedMariosy(receiverExternalId);
+        MariosyDTO userReceivedMariosy = userService.getUsersReceivedMariosy(receiverExternalId);
 
         //then
-        assertTrue(userReceivedMariosy.contains(marios1));
-        assertTrue(userReceivedMariosy.contains(marios2));
-        assertEquals(2, userReceivedMariosy.size());
+        assertTrue(userReceivedMariosy.getMariosy().contains(marios1));
+        assertTrue(userReceivedMariosy.getMariosy().contains(marios2));
+        assertEquals(2, userReceivedMariosy.getCount());
     }
 
     @Test
@@ -135,18 +136,18 @@ public class UserServiceTest {
         // given
         User author = new User("Mateusz", "mateusz@gmail.com");
         User receiver = new User("Bartosz", "bartek@gmail.com");
-        Marios marios = new Marios("Mario", "Good job!", author);
+        Marios marios = new Marios("Mario", "Good job!", author, "Greetings");
         UUID authorExternalId = author.getExternalId();
 
         // when
         receiver.addMarios(marios);
 
         when(userRepository.findByExternalId(authorExternalId)).thenReturn(Optional.of(author));
-        Set<Marios> userGivenMariosy = userService.getUsersGivenMariosy(authorExternalId);
+        MariosyDTO userGivenMariosy = userService.getUsersGivenMariosy(authorExternalId);
         System.out.println(userGivenMariosy);
         //then
-        assertTrue(userGivenMariosy.contains(marios));
-        assertEquals(1, userGivenMariosy.size());
+        assertTrue(userGivenMariosy.getMariosy().contains(marios));
+        assertEquals(1, userGivenMariosy.getCount());
     }
 
     @Test

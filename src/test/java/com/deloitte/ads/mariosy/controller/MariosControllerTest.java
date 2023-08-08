@@ -42,8 +42,8 @@ public class MariosControllerTest {
         User receiver2 = new User("Kamil", "kamil@gmail.com");
 
         Set<UUID> receiversExternalId = Set.of(receiver1.getExternalId(), receiver2.getExternalId());
-        MariosDTO mariosDTO = new MariosDTO("Mario", "Good job!", author.getExternalId(), receiversExternalId);
-        Marios marios = new Marios("Mario", "Good job!", author);
+        MariosDTO mariosDTO = new MariosDTO("Mario", "Good job!", author.getExternalId(), receiversExternalId, "Greeting");
+        Marios marios = new Marios("Mario", "Good job!", author, "Greeting");
 
         // when then
         when(marioService.addMarios(any(MariosDTO.class))).thenReturn(marios);
@@ -62,7 +62,7 @@ public class MariosControllerTest {
     void deleteMariosTest() throws Exception {
         // given
         User author = new User("Mateusz", "mateusz@gmail.com");
-        Marios marios = new Marios("Mario", "Good job!", author);
+        Marios marios = new Marios("Mario", "Good job!", author, "Greeting");
 
         // when then
         mvc.perform(MockMvcRequestBuilders

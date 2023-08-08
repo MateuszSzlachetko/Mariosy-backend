@@ -42,7 +42,7 @@ public class MarioServiceTest {
         User receiver2 = new User("Kamil", "kamil@gmail.com");
 
         Set<UUID> receiversExternalId = Set.of(receiver1.getExternalId(), receiver2.getExternalId());
-        MariosDTO mariosDTO = new MariosDTO("Mario", "Good job!", author.getExternalId(), receiversExternalId);
+        MariosDTO mariosDTO = new MariosDTO("Mario", "Good job!", author.getExternalId(), receiversExternalId, "Greetings");
 
         // when
         when(userRepository.findByExternalId(author.getExternalId())).thenReturn(Optional.of(author));
@@ -72,7 +72,7 @@ public class MarioServiceTest {
         User author = new User("Mateusz", "mateusz@gmail.com");
 
         Set<UUID> receiversExternalId = Set.of(author.getExternalId());
-        MariosDTO mariosDTO = new MariosDTO("Mario", "Good job!", author.getExternalId(), receiversExternalId);
+        MariosDTO mariosDTO = new MariosDTO("Mario", "Good job!", author.getExternalId(), receiversExternalId, "Greetings");
 
         // when
         when(userRepository.findByExternalId(author.getExternalId())).thenReturn(Optional.of(author));
@@ -90,7 +90,7 @@ public class MarioServiceTest {
         UUID randomUUID = UUID.randomUUID();
 
         Set<UUID> receiversExternalId = Set.of(randomUUID);
-        MariosDTO mariosDTO = new MariosDTO("Mario", "Good job!", author.getExternalId(), receiversExternalId);
+        MariosDTO mariosDTO = new MariosDTO("Mario", "Good job!", author.getExternalId(), receiversExternalId, "Greetings");
 
         // when
         NoSuchElementException thrown = Assertions.assertThrows(NoSuchElementException.class,
@@ -104,7 +104,7 @@ public class MarioServiceTest {
     public void shouldDeleteMarios() {
         // given
         User user = new User("Mateusz", "mateusz@gmail.com");
-        Marios marios = new Marios("Mario", "Good job!", user);
+        Marios marios = new Marios("Mario", "Good job!", user, "Greetings");
 
         // when
         when(userRepository.findByExternalId(user.getExternalId())).thenReturn(Optional.of(user));
@@ -120,7 +120,7 @@ public class MarioServiceTest {
         // given
         User author = new User("Mateusz", "mateusz@gmail.com");
         User notAuthor = new User("Mateusz2", "mateusz2@gmail.com");
-        Marios marios = new Marios("Mario", "Good job!", author);
+        Marios marios = new Marios("Mario", "Good job!", author, "Greetings");
 
         // when
         when(userRepository.findByExternalId(notAuthor.getExternalId())).thenReturn(Optional.of(notAuthor));
@@ -138,7 +138,7 @@ public class MarioServiceTest {
         // given
         User author = new User("Mateusz", "mateusz@gmail.com");
         User notExistingUser = new User("Mateusz", "mateusz@gmail.com");
-        Marios marios = new Marios("Mario", "Good job!", author);
+        Marios marios = new Marios("Mario", "Good job!", author, "Greetings");
 
         // when
         NoSuchElementException thrown = Assertions.assertThrows(NoSuchElementException.class,
@@ -153,7 +153,7 @@ public class MarioServiceTest {
     public void shouldThrowWhenMariosDoesNotExistWhenDeletingMarios() {
         // given
         User author = new User("Mateusz", "mateusz@gmail.com");
-        Marios marios = new Marios("Mario", "Good job!", author);
+        Marios marios = new Marios("Mario", "Good job!", author, "Greetings");
 
         // when
         when(userRepository.findByExternalId(author.getExternalId())).thenReturn(Optional.of(author));
@@ -174,7 +174,7 @@ public class MarioServiceTest {
 
 
         Set<UUID> receiversExternalId = Set.of(receiver1.getExternalId(), receiver2.getExternalId());
-        MariosDTO mariosDTO = new MariosDTO("Mario", "Good job!", author.getExternalId(), receiversExternalId);
+        MariosDTO mariosDTO = new MariosDTO("Mario", "Good job!", author.getExternalId(), receiversExternalId, "Greetings");
 
         // when
         when(userRepository.findByExternalId(author.getExternalId())).thenReturn(Optional.of(author));

@@ -1,9 +1,6 @@
 package com.deloitte.ads.mariosy.controller;
 
-import com.deloitte.ads.mariosy.entity.Marios;
-import com.deloitte.ads.mariosy.entity.MariosDTO;
-import com.deloitte.ads.mariosy.entity.User;
-import com.deloitte.ads.mariosy.entity.UserDTO;
+import com.deloitte.ads.mariosy.entity.*;
 import com.deloitte.ads.mariosy.service.MarioService;
 import com.deloitte.ads.mariosy.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -94,18 +91,21 @@ public class UserControllerTest {
         // given
         User user = new User("Mateusz", "mateusz@gmail.com");
         User author = new User("Mateusz", "mateusz@gmail.com");
-        Marios marios = new Marios("Mario", "Good job!", author);
+        Marios marios = new Marios("Mario", "Good job!", author, "Greeting");
         user.addMarios(marios);
+        MariosyDTO mariosy = new MariosyDTO(user.getReceivedMarios());
 
 
         // when then
-        when(userService.getUsersReceivedMariosy(user.getExternalId())).thenReturn(user.getReceivedMarios());
+        when(userService.getUsersReceivedMariosy(user.getExternalId())).thenReturn(mariosy);
         mvc.perform(MockMvcRequestBuilders
                         .get(url + "/{externalId}/marios/received", user.getExternalId()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].externalId").value(marios.getExternalId().toString()))
-                .andExpect(jsonPath("$[0].author").value(author.getExternalId().toString()))
-                .andExpect(jsonPath("$[0].characterName").value(marios.getCharacterName()));
+                .andExpect(jsonPath("$.mariosy[0].externalId").value(marios.getExternalId().toString()))
+                .andExpect(jsonPath("$.mariosy[0].author").value(author.getExternalId().toString()))
+                .andExpect(jsonPath("$.mariosy[0].characterName").value(marios.getCharacterName()))
+                .andExpect(jsonPath("$.count").value(1));
+
     }
 
     @Test
@@ -113,18 +113,21 @@ public class UserControllerTest {
         // given
         User user = new User("Mateusz", "mateusz@gmail.com");
         User author = new User("Mateusz", "mateusz@gmail.com");
-        Marios marios = new Marios("Mario", "Good job!", author);
+        Marios marios = new Marios("Mario", "Good job!", author, "Greeting");
         user.addMarios(marios);
+        MariosyDTO mariosy = new MariosyDTO(user.getReceivedMarios());
 
 
         // when then
-        when(userService.getUsersGivenMariosy(author.getExternalId())).thenReturn(author.getGivenMarios());
+        when(userService.getUsersGivenMariosy(author.getExternalId())).thenReturn(mariosy);
         mvc.perform(MockMvcRequestBuilders
                         .get(url + "/{externalId}/marios/given", author.getExternalId()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].externalId").value(marios.getExternalId().toString()))
-                .andExpect(jsonPath("$[0].author").value(author.getExternalId().toString()))
-                .andExpect(jsonPath("$[0].characterName").value(marios.getCharacterName()));
+                .andExpect(jsonPath("$.mariosy[0].externalId").value(marios.getExternalId().toString()))
+                .andExpect(jsonPath("$.mariosy[0].author").value(author.getExternalId().toString()))
+                .andExpect(jsonPath("$.mariosy[0].characterName").value(marios.getCharacterName()))
+                .andExpect(jsonPath("$.count").value(1));
+
     }
 
 
