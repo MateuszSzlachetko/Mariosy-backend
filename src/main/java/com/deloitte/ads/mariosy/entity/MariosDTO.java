@@ -6,10 +6,11 @@ import java.util.UUID;
 public class MariosDTO {
     private String characterName;
     private String comment;
+    private String title;
     private UUID authorId;
     private Set<UUID> receiversIds;
 
-    public MariosDTO(String characterName, String comment, UUID authorId, Set<UUID> receiversIds) {
+    public MariosDTO(String characterName, String comment, UUID authorId, Set<UUID> receiversIds, String title) {
         if (characterName == null || comment == null || authorId == null || receiversIds == null)
             throw new IllegalArgumentException("Bad argument");
 
@@ -17,6 +18,7 @@ public class MariosDTO {
         this.comment = comment;
         this.authorId = authorId;
         this.receiversIds = receiversIds;
+        this.title = title;
     }
 
     public String getCharacterName() {
@@ -49,5 +51,13 @@ public class MariosDTO {
 
     public void setReceiversIds(Set<UUID> receiversIds) {
         this.receiversIds = receiversIds;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

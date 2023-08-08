@@ -1,6 +1,7 @@
 package com.deloitte.ads.mariosy.service;
 
 import com.deloitte.ads.mariosy.entity.Marios;
+import com.deloitte.ads.mariosy.entity.MariosyDTO;
 import com.deloitte.ads.mariosy.entity.User;
 import com.deloitte.ads.mariosy.entity.UserDTO;
 import com.deloitte.ads.mariosy.repository.UserRepository;
@@ -31,7 +32,7 @@ public class UserService {
         );
     }
 
-    public Set<Marios> getUsersReceivedMariosy(UUID externalId) {
+    public MariosyDTO getUsersReceivedMariosy(UUID externalId) {
         Optional<User> userOptional = this.userRepository.findByExternalId(externalId);
 
         if (!userOptional.isPresent())
@@ -41,10 +42,12 @@ public class UserService {
 
         Set<Marios> receivedMarios = user.getReceivedMarios();
 
-        return receivedMarios;
+        MariosyDTO mariosyDTO = new MariosyDTO(receivedMarios);
+
+        return mariosyDTO;
     }
 
-    public Set<Marios> getUsersGivenMariosy(UUID externalId) {
+    public MariosyDTO getUsersGivenMariosy(UUID externalId) {
         Optional<User> userOptional = this.userRepository.findByExternalId(externalId);
 
         if (!userOptional.isPresent())
@@ -54,10 +57,12 @@ public class UserService {
 
         Set<Marios> givenMarios = user.getGivenMarios();
 
-        return givenMarios;
+        MariosyDTO mariosyDTO = new MariosyDTO(givenMarios);
+
+        return mariosyDTO;
     }
 
-    public User addUser(UserDTO userDTO) {
+    public synchronized User addUser(UserDTO userDTO) {
         User user = new User(userDTO.getUsername(), userDTO.getEmail());
 
         Optional<User> userWithSameEmail = userRepository.findByEmail(userDTO.getEmail());

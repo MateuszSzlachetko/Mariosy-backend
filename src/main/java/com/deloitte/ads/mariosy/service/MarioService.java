@@ -27,7 +27,7 @@ public class MarioService {
         User author = this.userRepository.findByExternalId(mariosDTO.getAuthorId()).orElseThrow(
                 () -> new NoSuchElementException("User does not exist")
         );
-        Marios marios = new Marios(mariosDTO.getCharacterName(), mariosDTO.getComment(), author);
+        Marios marios = new Marios(mariosDTO.getCharacterName(), mariosDTO.getComment(), author, mariosDTO.getTitle());
 
         mariosDTO.getReceiversIds().forEach(id -> {
             User receiver = this.userRepository.findByExternalId(id).orElseThrow(

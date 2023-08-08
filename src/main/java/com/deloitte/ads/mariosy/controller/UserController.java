@@ -1,9 +1,6 @@
 package com.deloitte.ads.mariosy.controller;
 
-import com.deloitte.ads.mariosy.entity.Marios;
-import com.deloitte.ads.mariosy.entity.MariosDTO;
-import com.deloitte.ads.mariosy.entity.User;
-import com.deloitte.ads.mariosy.entity.UserDTO;
+import com.deloitte.ads.mariosy.entity.*;
 import com.deloitte.ads.mariosy.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,12 +33,12 @@ public class UserController {
     }
 
     @GetMapping("/{externalId}/marios/received")
-    public Set<Marios> getUsersReceivedMariosy(@PathVariable UUID externalId) {
+    public MariosyDTO getUsersReceivedMariosy(@PathVariable UUID externalId) {
         return userService.getUsersReceivedMariosy(externalId);
     }
 
     @GetMapping("/{externalId}/marios/given")
-    public Set<Marios> getUsersGivenMariosy(@PathVariable UUID externalId) {
+    public MariosyDTO getUsersGivenMariosy(@PathVariable UUID externalId) {
         return userService.getUsersGivenMariosy(externalId);
     }
 
