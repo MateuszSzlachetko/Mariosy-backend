@@ -63,12 +63,28 @@ public class UserService {
     }
 
     public synchronized User addUser(UserDTO userDTO) {
-        User user = new User(userDTO.getUsername(), userDTO.getEmail());
+        User user = new User(userDTO.getUsername(), userDTO.getEmail(), UUID.randomUUID());
 
         Optional<User> userWithSameEmail = userRepository.findByEmail(userDTO.getEmail());
         Optional<User> userWithSameUsername = userRepository.findByUsername(userDTO.getUsername());
 
         if (userWithSameEmail.isPresent() || userWithSameUsername.isPresent())
+            throw new IllegalArgumentException("Such user already exists");
+
+        this.userRepository.save(user);
+
+        return user;
+    }
+
+    public synchronized User addUser(String username, String email, UUID externalId) {
+        User user = new User(username, email, externalId);
+
+        Optional<User> userWithSameEmail = userRepository.findByEmail(email);
+        Optional<User> userWithSameUsername = userRepository.findByUsername(username);
+        Optional<User> userWithSameExternalId = userRepository.findByExternalId(externalId);
+
+
+        if (userWithSameEmail.isPresent() || userWithSameUsername.isPresent() || userWithSameExternalId.isPresent())
             throw new IllegalArgumentException("Such user already exists");
 
         this.userRepository.save(user);

@@ -23,7 +23,7 @@ public class User {
     private Long id;
 
     @Column(name = "external_id")
-    private UUID externalId = UUID.randomUUID();
+    private UUID externalId;
 
     @Column(name = "username")
     private String username;
@@ -45,9 +45,10 @@ public class User {
     @JsonIdentityReference(alwaysAsId = true)
     private Set<Marios> givenMarios;
 
-    public User(String username, String email) {
+    public User(String username, String email, UUID externalId) {
         this.username = username;
         this.email = email;
+        this.externalId = externalId;
         this.receivedMarios = Sets.newHashSet();
         this.givenMarios = Sets.newHashSet();
     }
