@@ -1,4 +1,12 @@
 services:
+  mariosy-backend:
+    image: mszlachetko-mariosy-backend
+    ports:
+      - "8081:8081"
+    env_file:
+      - .env
+    networks:
+      - database-bridge
   database:
     restart: no
     image: 'postgres:latest'
@@ -12,6 +20,11 @@ services:
       - 'PGDATA=/data/postgres'
     volumes:
       - "postgres:/data/postgres"
+    networks:
+      - database-bridge
 
 volumes:
   postgres:
+
+networks:
+  database-bridge:

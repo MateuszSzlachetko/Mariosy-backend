@@ -10,6 +10,10 @@ public class MariosDTO {
     private UUID authorId;
     private Set<UUID> receiversIds;
 
+    public MariosDTO() {
+        super();
+    }
+
     public MariosDTO(String characterName, String comment, UUID authorId, Set<UUID> receiversIds, String title) {
         if (characterName == null || comment == null || authorId == null || receiversIds == null)
             throw new IllegalArgumentException("Bad argument");

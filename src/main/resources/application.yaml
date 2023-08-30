@@ -1,5 +1,5 @@
 server:
-  port: 8083
+  port: 8081
 springdoc:
   swagger-ui:
     path: /docs/swagger-ui
@@ -7,10 +7,6 @@ spring:
   output:
     ansi:
       enabled: ALWAYS
-  datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: postgres
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update

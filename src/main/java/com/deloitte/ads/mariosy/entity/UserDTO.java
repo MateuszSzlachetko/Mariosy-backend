@@ -4,6 +4,10 @@ public class UserDTO {
     private String username;
     private String email;
 
+    public UserDTO() {
+        super();
+    }
+
     public UserDTO(String username, String email) {
         if (username == null || email == null)
             throw new IllegalArgumentException("Bad argument");
